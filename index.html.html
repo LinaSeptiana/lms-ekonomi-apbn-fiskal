@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LMS Ekonomi · APBN dan Kebijakan Fiskal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF2F7; --surface:#FFFFFF; --surface2:#F5F8FC; --ink:#12203A; --muted:#55627C; --line:#D5DDE8;
+  --red:#C4122F; --red-soft:#FBE7EA; --teal:#0E7C6B; --teal-soft:#DDF3EE; --gold:#9A6400; --gold-soft:#FBF0D6; --blue:#1F4E9E; --blue-soft:#E3ECF9;
+  --shadow:0 1px 2px rgba(18,32,58,.06);
+  --head:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif; --body:'Literata',Georgia,'Times New Roman',serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1526; --surface:#162037; --surface2:#1B2846; --ink:#E8EDF7; --muted:#9AA8C3; --line:#2A3856;
+    --red:#FF7A8C; --red-soft:#3A1B26; --teal:#4FD1B5; --teal-soft:#123A36; --gold:#E6B450; --gold-soft:#3A2F14; --blue:#8DB4F5; --blue-soft:#1A2D52;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1526; --surface:#162037; --surface2:#1B2846; --ink:#E8EDF7; --muted:#9AA8C3; --line:#2A3856;
+  --red:#FF7A8C; --red-soft:#3A1B26; --teal:#4FD1B5; --teal-soft:#123A36; --gold:#E6B450; --gold-soft:#3A2F14; --blue:#8DB4F5; --blue-soft:#1A2D52;
+  --shadow:none;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.7}
+h1,h2,h3,h4{font-family:var(--head);line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,5.2vw,3.5rem);font-weight:800}
+h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-top:1.8em}
+h3{font-size:1.2rem;font-weight:700;margin-top:1.4em}
+p{margin:0 0 1em;max-width:68ch}
+a{color:var(--blue)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+.app{display:grid;grid-template-columns:290px minmax(0,1fr);min-height:100vh}
+/* Sidebar */
+.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;background:var(--surface);border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:14px}
+.brand{font-family:var(--head);font-weight:800;font-size:1.25rem;display:flex;gap:10px;align-items:center;padding:0 8px;text-decoration:none;color:var(--ink)}
+.brand small{display:block;font-weight:500;font-size:.78rem;color:var(--muted);letter-spacing:0}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;text-decoration:none;color:var(--ink);font-family:var(--head);font-weight:500;font-size:.98rem}
+.nav a:hover{background:var(--surface2)}
+.nav a[aria-current="page"]{background:var(--ink);color:var(--surface)}
+.nav .kids{margin:2px 0 6px 20px;padding-left:12px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:1px}
+.nav .kids a{font-size:.9rem;padding:6px 10px;font-weight:500}
+.tick{margin-left:auto;font-size:.8rem;color:var(--teal)}
+.nav a[aria-current="page"] .tick{color:var(--surface)}
+.prog{margin-top:auto;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);font-family:var(--head);font-size:.9rem}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--teal);border-radius:99px;transition:width .4s}
+.theme{background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 12px;font-family:var(--head);font-size:.88rem}
+.top{display:none}
+/* Main */
+main{padding:44px clamp(18px,4vw,56px) 80px;min-width:0}
+.wrap{max-width:860px;margin:0 auto}
+.crumb{font-family:var(--head);font-size:.9rem;color:var(--muted);margin-bottom:10px}
+.lead{font-size:1.15rem;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);margin:18px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.grid .card{margin:0}
+.callout{border-left:5px solid var(--blue);background:var(--blue-soft);padding:14px 18px;border-radius:0 12px 12px 0;margin:20px 0}
+.callout.red{border-color:var(--red);background:var(--red-soft)}
+.callout.teal{border-color:var(--teal);background:var(--teal-soft)}
+.callout.gold{border-color:var(--gold);background:var(--gold-soft)}
+.callout p:last-child{margin:0}
+.callout b.t{font-family:var(--head);display:block;margin-bottom:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--surface);border:0;border-radius:10px;padding:11px 18px;font-family:var(--head);font-weight:700;font-size:.98rem;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.red{background:var(--red);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pn{display:flex;justify-content:space-between;gap:10px;margin-top:36px;flex-wrap:wrap}
+table{border-collapse:collapse;width:100%;font-size:.95rem;font-family:var(--head)}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-weight:700}
+tr:last-child td{border-bottom:0}
+ul,ol{padding-left:1.3em;margin:0 0 1em}
+li{margin-bottom:.35em;max-width:68ch}
+.pill{display:inline-block;font-family:var(--head);font-weight:700;font-size:.82rem;padding:2px 10px;border-radius:99px;background:var(--blue-soft);color:var(--blue)}
+.pill.red{background:var(--red-soft);color:var(--red)} .pill.teal{background:var(--teal-soft);color:var(--teal)} .pill.gold{background:var(--gold-soft);color:var(--gold)}
+.formula{font-family:var(--head);font-size:1.15rem;font-weight:700;background:var(--surface2);border:1px dashed var(--line);border-radius:10px;padding:12px 16px;text-align:center;margin:14px 0}
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:36px;align-items:center;margin-bottom:26px}
+.scale{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 18px 22px}
+.scale svg{width:100%;height:auto;display:block;overflow:visible}
+.scale .beam{stroke:var(--ink);stroke-width:6;stroke-linecap:round}
+.scale .stand{stroke:var(--ink);stroke-width:5;fill:none}
+.scale .base{fill:var(--ink)}
+.scale .rope{stroke:var(--muted);stroke-width:1.5}
+.scale text{font-family:var(--head);fill:var(--ink);text-anchor:middle}
+.scale .lab{font-size:13px;font-weight:700}
+.scale .val{font-size:14px;fill:var(--muted)}
+#beamG{transform-origin:180px 60px;transition:transform .35s ease}
+.pan{transition:transform .35s ease}
+.scale label{font-family:var(--head);font-weight:700;font-size:.92rem;display:block;margin-top:6px}
+input[type=range]{width:100%;accent-color:var(--red)}
+.state{font-family:var(--head);font-weight:800;font-size:1.25rem;margin-top:6px}
+/* Forms */
+.field{display:block;margin:0 0 16px}
+.field span{display:block;font-family:var(--head);font-weight:700;font-size:.95rem;margin-bottom:6px}
+input[type=text],input[type=number],textarea,select{width:100%;font:inherit;font-size:1rem;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+textarea{min-height:96px;resize:vertical}
+.opts{display:grid;gap:10px;margin:14px 0}
+.opt{text-align:left;background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;font-family:var(--body)}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.ok{border-color:var(--teal);background:var(--teal-soft)}
+.opt.no{border-color:var(--red);background:var(--red-soft)}
+.opt:disabled{cursor:default}
+.qhead{display:flex;gap:14px;align-items:center;font-family:var(--head);font-size:.9rem;color:var(--muted)}
+.qhead .bar{flex:1;margin:0}
+.cls{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.cls:last-child{border-bottom:0}
+.cls .why{grid-column:1/-1;font-size:.9rem;color:var(--muted);margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:99px;padding:5px 12px;font-family:var(--head);font-weight:500;font-size:.85rem}
+.chip:hover:not(:disabled){border-color:var(--ink)}
+.chip.ok{background:var(--teal);border-color:var(--teal);color:#fff}
+.chip.no{background:var(--red);border-color:var(--red);color:#fff}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
+.stat div{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-family:var(--head)}
+.stat b{display:block;font-size:1.35rem}
+.stat small{color:var(--muted)}
+.flow{display:flex;flex-direction:column;gap:0;margin:14px 0}
+.flow div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-family:var(--head)}
+.flow div+div{margin-top:22px;position:relative}
+.flow div+div::before{content:"";position:absolute;left:24px;top:-22px;height:22px;border-left:2px solid var(--muted)}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tabs button{background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:8px 16px;font-family:var(--head);font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
+summary{font-family:var(--head);font-weight:700;cursor:pointer}
+details[open] summary{margin-bottom:6px}
+.tl{list-style:none;padding:0;counter-reset:s}
+.tl li{counter-increment:s;position:relative;padding:0 0 18px 48px;max-width:none}
+.tl li::before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;font-family:var(--head);font-weight:800}
+.tl li::after{content:"";position:absolute;left:16px;top:38px;bottom:4px;border-left:2px solid var(--line)}
+.tl li:last-child::after{display:none}
+.tl b{font-family:var(--head)}
+.toast{font-family:var(--head);font-weight:700;color:var(--teal);margin-left:6px}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:min(84vw,310px);z-index:30;transform:translateX(-102%);transition:transform .25s;padding-top:calc(22px + env(safe-area-inset-top,0px))}
+  body.open .side{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
+  .top{display:flex;align-items:center;gap:12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);padding:10px 16px;font-family:var(--head);font-weight:800}
+  .top button{background:var(--ink);color:var(--surface);border:0;border-radius:10px;padding:8px 12px;font-family:var(--head);font-weight:700}
+  .hero{grid-template-columns:1fr}
+  main{padding-top:26px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="top"><button id="menuBtn" aria-label="Buka menu">☰ Menu</button><span>🏦 LMS Ekonomi</span></div>
+<div class="app">
+  <aside class="side" id="side">
+    <a class="brand" href="#/beranda"><span style="font-size:1.6rem">🏦</span><span>LMS Ekonomi<small>APBN dan Kebijakan Fiskal · Kelas XI</small></span></a>
+    <nav class="nav" id="nav" aria-label="Navigasi utama"></nav>
+    <div class="prog"><div>Progres belajar: <b id="pct">0%</b></div><div class="bar"><i id="pbar" style="width:0%"></i></div></div>
+    <button class="theme" id="themeBtn">Ganti tema</button>
+  </aside>
+  <main id="main"><div class="wrap" id="view"></div></main>
+</div>
+
+<script>
+/* ---------- State ---------- */
+const KEY='lms-apbn-v1';
+let S={done:{},best:null,lkpd:{},ref:{}};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fmt=n=>Number(n).toLocaleString('id-ID',{maximumFractionDigits:1});
+
+/* ---------- Navigasi ---------- */
+const KIDS=[['pengertian','Pengertian APBN'],['jenis','Jenis Kebijakan Fiskal'],['instrumen','Instrumen'],['mekanisme','Mekanisme'],['contoh','Contoh'],['rangkuman','Rangkuman']];
+const NAV=[
+ {id:'beranda',ic:'🏠',t:'Beranda'},{id:'capaian',ic:'🎯',t:'Capaian'},
+ {id:'materi',ic:'📚',t:'Materi',kids:KIDS},
+ {id:'video',ic:'🎥',t:'Video'},{id:'aktivitas',ic:'🔎',t:'Aktivitas',k:'aktivitas'},{id:'lkpd',ic:'📑',t:'LKPD',k:'lkpd'},
+ {id:'kuis',ic:'🎮',t:'Kuis',k:'kuis'},{id:'refleksi',ic:'💭',t:'Refleksi',k:'refleksi'},{id:'sumber',ic:'🔗',t:'Sumber'}
+];
+const TRACK=[...KIDS.map(k=>'m-'+k[0]),'aktivitas','lkpd','kuis','refleksi'];
+function drawNav(route){
+  const cur=route.join('/');
+  $('#nav').innerHTML=NAV.map(n=>{
+    const on=route[0]===n.id&&(!n.kids||route.length===1);
+    const done=n.k&&S.done[n.k]?'<span class="tick">✓</span>':'';
+    let h=`<a href="#/${n.id}" ${on?'aria-current="page"':''}><span>${n.ic}</span>${n.t}${done}</a>`;
+    if(n.kids&&route[0]==='materi'){
+      h+='<div class="kids">'+n.kids.map(k=>`<a href="#/materi/${k[0]}" ${cur==='materi/'+k[0]?'aria-current="page"':''}>${k[1]}${S.done['m-'+k[0]]?'<span class="tick">✓</span>':''}</a>`).join('')+'</div>';
+    }
+    return h;
+  }).join('');
+  const p=Math.round(TRACK.filter(k=>S.done[k]).length/TRACK.length*100);
+  $('#pct').textContent=p+'\%';$('#pbar').style.width=p+'%';
+}
+function mark(k,v=true){S.done[k]=v;save();drawNav(location.hash.slice(2).split('/'));}
+
+/* ---------- Halaman ---------- */
+const P={};
+
+P.beranda={t:'Beranda',h:()=>`
+<section class="hero">
+  <div>
+    <div class="crumb">Ekonomi · Kelas XI</div>
+    <h1>Selamat datang di LMS Ekonomi</h1>
+    <p class="lead">Materi: <b>APBN dan Kebijakan Fiskal</b></p>
+    <p>Di pembelajaran ini kamu akan mempelajari pengertian APBN, struktur pendapatan dan belanja negara, jenis dan instrumen kebijakan fiskal, serta mekanismenya. Setiap konsep dikaitkan dengan contoh nyata, supaya kamu paham bahwa APBN tidak hanya urusan pemerintah, tetapi ikut menentukan harga, lapangan kerja, sekolah, dan pajak yang kamu temui sehari-hari.</p>
+    <div class="row"><a class="btn red" href="#/materi/pengertian">Mulai belajar</a><a class="btn ghost" href="#/capaian">Lihat tujuan belajar</a></div>
+  </div>
+  <div class="scale" aria-label="Timbangan pendapatan dan belanja negara">
+    <svg viewBox="0 0 360 230" role="img" aria-label="Timbangan yang miring sesuai selisih pendapatan dan belanja">
+      <path class="stand" d="M180 60 L180 200"/><rect class="base" x="128" y="200" width="104" height="9" rx="4"/>
+      <g id="beamG"><line class="beam" x1="40" y1="60" x2="320" y2="60"/></g><circle cx="180" cy="60" r="8" fill="var(--red)"/>
+      <g class="pan" id="panL"><line class="rope" x1="40" y1="60" x2="40" y2="112"/><rect x="8" y="112" width="64" height="12" rx="6" fill="var(--teal)"/><text class="lab" x="40" y="146">Pendapatan</text><text class="val" id="vL" x="40" y="163"></text></g>
+      <g class="pan" id="panR"><line class="rope" x1="320" y1="60" x2="320" y2="112"/><rect x="288" y="112" width="64" height="12" rx="6" fill="var(--red)"/><text class="lab" x="320" y="146">Belanja</text><text class="val" id="vR" x="320" y="163"></text></g>
+    </svg>
+    <label for="bel">Geser besar belanja negara</label>
+    <input type="range" id="bel" min="1600" max="2600" step="50" value="2300">
+    <div class="state" id="res"></div>
+    <small style="font-family:var(--head);color:var(--muted)">Angka ilustrasi dalam triliun rupiah. PDB ilustrasi Rp12.000 T.</small>
+  </div>
+</section>
+<h2>Alur belajar</h2>
+<ol class="tl">
+  <li><b>Baca materi.</b> Enam subhalaman: pengertian, jenis, instrumen, mekanisme, contoh, dan rangkuman.</li>
+  <li><b>Coba aktivitas.</b> Simulator kebijakan fiskal dan permainan klasifikasi.</li>
+  <li><b>Kerjakan LKPD.</b> Hitung defisit dan analisis kasus dengan kata-katamu sendiri.</li>
+  <li><b>Uji pemahaman.</b> Kuis 10 soal dengan pembahasan.</li>
+  <li><b>Refleksi.</b> Catat apa yang sudah kamu pahami dan apa yang masih sulit.</li>
+</ol>
+<div class="callout"><b class="t">Progres tersimpan otomatis</b><p>Halaman yang sudah kamu tandai selesai akan bercentang di menu. Data disimpan di browser perangkat ini.</p></div>`,
+ i:()=>{
+  const r=$('#bel'),P0=2000,PDB=12000;
+  const up=()=>{
+    const B=+r.value,d=B-P0;const deg=Math.max(-14,Math.min(14,d/500*14)),rad=deg*Math.PI/180;
+    $('#beamG').style.transform=`rotate(${deg}deg)`;
+    const dx=140*(Math.cos(rad)-1),dy=140*Math.sin(rad);
+    $('#panR').style.transform=`translate(${dx}px,${dy}px)`;$('#panL').style.transform=`translate(${-dx}px,${-dy}px)`;
+    $('#vL').textContent='Rp'+fmt(P0)+' T';$('#vR').textContent='Rp'+fmt(B)+' T';
+    const pc=Math.abs(d)/PDB*100;
+    $('#res').innerHTML=d>0?`<span style="color:var(--red)">Defisit Rp${fmt(d)} T (${fmt(pc)}% PDB)</span>`:d<0?`<span style="color:var(--teal)">Surplus Rp${fmt(-d)} T (${fmt(pc)}% PDB)</span>`:'Anggaran berimbang';
+  };
+  r.oninput=up;up();
+ }};
+
+P.capaian={t:'Capaian',h:()=>`
+<div class="crumb">🎯 Capaian</div><h1>Capaian Pembelajaran</h1>
+<p class="lead">Di akhir pembelajaran, kamu diharapkan mampu menganalisis peran pemerintah dalam perekonomian melalui APBN dan kebijakan fiskal, lalu mengaitkannya dengan kondisi ekonomi Indonesia.</p>
+<h2>Tujuan pembelajaran</h2>
+<ol>
+<li>Menjelaskan pengertian, dasar hukum, dan fungsi APBN.</li>
+<li>Mengidentifikasi struktur APBN (pendapatan, belanja, pembiayaan) serta menghitung surplus atau defisit anggaran.</li>
+<li>Membedakan kebijakan fiskal ekspansif, kontraktif, dan netral, serta kebijakan diskresioner dan otomatis.</li>
+<li>Menjelaskan instrumen kebijakan fiskal: pajak, belanja pemerintah, subsidi dan transfer, serta pembiayaan.</li>
+<li>Menganalisis mekanisme kebijakan fiskal untuk mengatasi resesi dan inflasi.</li>
+<li>Mengevaluasi contoh kebijakan fiskal di Indonesia beserta manfaat dan risikonya.</li>
+</ol>
+<h2>Kemampuan yang dilatih</h2>
+<div class="grid">
+<div class="card"><h3 style="margin-top:0">Bernalar kritis</h3><p>Menilai apakah suatu kebijakan cocok dengan kondisi ekonomi.</p></div>
+<div class="card"><h3 style="margin-top:0">Literasi numerasi</h3><p>Menghitung defisit, rasio terhadap PDB, dan pengganda.</p></div>
+<div class="card"><h3 style="margin-top:0">Warga negara peduli</h3><p>Memahami dari mana uang negara berasal dan ke mana perginya.</p></div>
+</div>
+<div class="callout gold"><b class="t">Catatan untuk guru</b><p>Rumusan tujuan di atas dapat disesuaikan dengan modul ajar dan capaian pembelajaran yang berlaku di sekolah Anda.</p></div>`};
+
+P.materi={t:'Materi',h:()=>`
+<div class="crumb">📚 Materi</div><h1>Materi Pembelajaran</h1>
+<p class="lead">Pilih subbab. Disarankan membaca berurutan.</p>
+<div class="grid">${KIDS.map((k,i)=>`<a class="card" style="text-decoration:none;color:inherit" href="#/materi/${k[0]}"><span class="pill ${S.done['m-'+k[0]]?'teal':''}">${S.done['m-'+k[0]]?'Selesai':'Subbab '+(i+1)}</span><h3 style="margin:10px 0 0">${k[1]}</h3></a>`).join('')}</div>`};
+
+const M={};
+M.pengertian=`
+<p class="lead">APBN adalah rencana keuangan tahunan pemerintah. Rencana itu baru boleh dijalankan setelah disetujui DPR dan ditetapkan dengan undang-undang.</p>
+<h2>1. Apa itu APBN?</h2>
+<p><b>Anggaran Pendapatan dan Belanja Negara (APBN)</b> memuat perkiraan pendapatan negara, rencana belanja negara, dan cara menutup selisihnya (pembiayaan) selama satu tahun anggaran, yaitu 1 Januari sampai 31 Desember.</p>
+<p>Dasar hukumnya adalah <b>Pasal 23 ayat (1) UUD 1945</b> dan <b>UU No. 17 Tahun 2003 tentang Keuangan Negara</b>. Tujuan akhirnya adalah sebesar-besar kemakmuran rakyat, dengan pengelolaan yang terbuka dan bertanggung jawab.</p>
+<h2>2. Kebijakan fiskal</h2>
+<p><b>Kebijakan fiskal</b> adalah langkah pemerintah mengatur penerimaan dan pengeluaran negara untuk memengaruhi kegiatan ekonomi. Jadi APBN adalah "dokumen"-nya, sedangkan kebijakan fiskal adalah "cara memakainya".</p>
+<div class="tw"><table><tr><th>Tujuan kebijakan fiskal</th><th>Contoh</th></tr>
+<tr><td>Mendorong pertumbuhan ekonomi</td><td>Belanja infrastruktur, insentif investasi</td></tr>
+<tr><td>Menjaga stabilitas harga</td><td>Subsidi energi, pengendalian belanja saat inflasi</td></tr>
+<tr><td>Memperluas kesempatan kerja</td><td>Padat karya, dukungan UMKM</td></tr>
+<tr><td>Memeratakan distribusi pendapatan</td><td>Pajak progresif, bansos, dana desa</td></tr></table></div>
+<h2>3. Fungsi APBN</h2>
+<div class="grid">
+<div class="card"><span class="pill">Otorisasi</span><p style="margin-top:8px">Menjadi dasar hukum pemerintah menerima dan membelanjakan uang.</p></div>
+<div class="card"><span class="pill">Perencanaan</span><p style="margin-top:8px">Pedoman program dan kegiatan pemerintah selama setahun.</p></div>
+<div class="card"><span class="pill">Pengawasan</span><p style="margin-top:8px">Alat menilai apakah pemerintah menjalankan rencananya dengan benar.</p></div>
+<div class="card"><span class="pill teal">Alokasi</span><p style="margin-top:8px">Mengarahkan sumber daya ke sektor yang dibutuhkan, misalnya pendidikan dan kesehatan.</p></div>
+<div class="card"><span class="pill teal">Distribusi</span><p style="margin-top:8px">Mengurangi kesenjangan lewat pajak, subsidi, dan bansos.</p></div>
+<div class="card"><span class="pill teal">Stabilisasi</span><p style="margin-top:8px">Menjaga keseimbangan ekonomi, misalnya harga dan lapangan kerja.</p></div>
+</div>
+<h2>4. Struktur APBN</h2>
+<div class="tw"><table>
+<tr><th style="width:26%">Komponen</th><th>Isi utama</th></tr>
+<tr><td><span class="pill teal">Pendapatan negara</span></td><td><b>Penerimaan perpajakan</b>: PPh, PPN dan PPnBM, PBB, cukai, bea masuk dan bea keluar.<br><b>PNBP</b> (Penerimaan Negara Bukan Pajak): hasil sumber daya alam, laba BUMN, layanan pemerintah.<br><b>Hibah</b>.</td></tr>
+<tr><td><span class="pill red">Belanja negara</span></td><td><b>Belanja pemerintah pusat</b>: pegawai, barang, modal, bunga utang, subsidi, bansos.<br><b>Transfer ke daerah</b>: dana perimbangan (DAU, DAK, DBH) dan dana desa.</td></tr>
+<tr><td><span class="pill gold">Pembiayaan</span></td><td>Sumber untuk menutup defisit, terutama utang (penerbitan Surat Berharga Negara dan pinjaman) dan pembiayaan investasi.</td></tr></table></div>
+<h2>5. Surplus, defisit, dan batasnya</h2>
+<div class="formula">Saldo anggaran = Pendapatan negara − Belanja negara</div>
+<ul>
+<li><b>Surplus</b>: pendapatan &gt; belanja.</li>
+<li><b>Defisit</b>: belanja &gt; pendapatan; selisihnya ditutup dengan pembiayaan.</li>
+<li><b>Berimbang</b>: pendapatan = belanja.</li>
+</ul>
+<div class="callout red"><b class="t">Batas aman</b><p>Menurut UU Keuangan Negara, defisit APBN dibatasi maksimal <b>3% dari PDB</b> dan rasio utang pemerintah maksimal <b>60% dari PDB</b>. Pada masa pandemi COVID-19, ketentuan ini sempat dilonggarkan sementara melalui undang-undang khusus.</p></div>
+<h2>6. Siklus APBN</h2>
+<ol class="tl">
+<li><b>Perencanaan dan penganggaran.</b> Pemerintah menyusun asumsi makro, prioritas, dan rancangan APBN.</li>
+<li><b>Pembahasan dan penetapan.</b> DPR membahas rancangan bersama pemerintah, lalu menetapkannya menjadi UU APBN.</li>
+<li><b>Pelaksanaan.</b> Kementerian dan lembaga menjalankan program sesuai anggaran yang tersedia.</li>
+<li><b>Pelaporan dan pertanggungjawaban.</b> Pemerintah menyusun laporan keuangan dan menyampaikannya ke DPR.</li>
+<li><b>Pemeriksaan.</b> Badan Pemeriksa Keuangan (BPK) memeriksa pengelolaan dan pertanggungjawaban keuangan negara.</li>
+</ol>`;
+
+M.jenis=`
+<p class="lead">Kebijakan fiskal dibedakan menurut arahnya terhadap perekonomian dan menurut cara pelaksanaannya.</p>
+<h2>1. Berdasarkan arah kebijakan</h2>
+<div class="tw"><table>
+<tr><th></th><th>Ekspansif</th><th>Kontraktif</th><th>Netral</th></tr>
+<tr><td><b>Tindakan</b></td><td>Menambah belanja dan/atau menurunkan pajak</td><td>Mengurangi belanja dan/atau menaikkan pajak</td><td>Belanja dan pajak dijaga seimbang</td></tr>
+<tr><td><b>Dipakai saat</b></td><td>Resesi, pengangguran tinggi, daya beli lemah</td><td>Inflasi tinggi, ekonomi terlalu panas</td><td>Ekonomi stabil</td></tr>
+<tr><td><b>Efek pada anggaran</b></td><td>Cenderung defisit</td><td>Cenderung surplus atau defisit mengecil</td><td>Cenderung berimbang</td></tr>
+<tr><td><b>Efek pada ekonomi</b></td><td>Permintaan agregat naik</td><td>Permintaan agregat turun</td><td>Relatif tetap</td></tr></table></div>
+<h2>2. Berdasarkan cara pelaksanaan</h2>
+<div class="grid">
+<div class="card"><span class="pill">Diskresioner</span><p style="margin-top:8px">Diputuskan sengaja oleh pemerintah, misalnya mengubah tarif pajak, memberi insentif, atau menambah proyek. Butuh waktu untuk merancang dan menyetujuinya.</p></div>
+<div class="card"><span class="pill teal">Otomatis (stabilisator otomatis)</span><p style="margin-top:8px">Bekerja sendiri tanpa keputusan baru. Contoh: pajak penghasilan progresif. Saat ekonomi lesu, pendapatan turun dan pajak yang dibayar ikut turun; saat ekonomi panas, pajak naik sendiri.</p></div>
+</div>
+<div class="callout"><b class="t">Ingat</b><p>Ekspansif dan kontraktif menggambarkan <i>arah</i> kebijakan. Diskresioner dan otomatis menggambarkan <i>cara</i>. Satu kebijakan bisa dinilai dari kedua sisi.</p></div>`;
+
+M.instrumen=`
+<p class="lead">Ada empat kelompok alat yang dipakai pemerintah untuk menjalankan kebijakan fiskal.</p>
+<h2>1. Pajak</h2>
+<p>Sumber utama pendapatan negara. Mengubah tarif atau memberi insentif akan memengaruhi pendapatan yang bisa dibelanjakan masyarakat dan keuntungan usaha. Berdasarkan tarifnya, pajak dibedakan menjadi <b>progresif</b> (tarif naik bila dasar pengenaan naik, contoh PPh orang pribadi), <b>proporsional</b> (tarif tetap), dan <b>regresif</b> (tarif turun bila dasar pengenaan naik).</p>
+<h2>2. Belanja pemerintah</h2>
+<p>Belanja barang, jasa, dan modal (jalan, sekolah, rumah sakit) langsung menambah permintaan dalam perekonomian dan membuka lapangan kerja.</p>
+<h2>3. Subsidi dan transfer</h2>
+<p>Subsidi menahan harga barang tertentu, sedangkan transfer (bansos, bantuan pendidikan) menambah daya beli kelompok rentan. Transfer ke daerah dan dana desa memeratakan pembangunan.</p>
+<h2>4. Pembiayaan (utang)</h2>
+<p>Bila belanja lebih besar daripada pendapatan, pemerintah menutupnya, terutama dengan menerbitkan Surat Berharga Negara. Utang boleh dipakai, tetapi harus dijaga agar tidak membebani generasi berikutnya.</p>
+<h2>Ringkasan pengaruh</h2>
+<div class="tw"><table>
+<tr><th>Instrumen</th><th>Saat resesi (ekspansif)</th><th>Saat inflasi (kontraktif)</th></tr>
+<tr><td>Pajak</td><td>Tarif diturunkan, insentif diberikan</td><td>Tarif dinaikkan, insentif dikurangi</td></tr>
+<tr><td>Belanja pemerintah</td><td>Ditambah</td><td>Ditunda atau dikurangi</td></tr>
+<tr><td>Subsidi dan transfer</td><td>Bansos diperluas</td><td>Subsidi dirapikan agar tepat sasaran</td></tr>
+<tr><td>Pembiayaan</td><td>Defisit dibiayai utang secara terukur</td><td>Defisit dikecilkan</td></tr></table></div>
+<h2>Perluasan: efek pengganda</h2>
+<p>Satu rupiah tambahan belanja pemerintah akan diterima sebagai pendapatan oleh pihak lain, lalu sebagian dibelanjakan lagi, dan seterusnya. Dalam model sederhana (tanpa pajak dan perdagangan luar negeri):</p>
+<div class="formula">k = 1 / (1 − MPC) &nbsp;&nbsp;&nbsp; ΔY = k × ΔG</div>
+<p>MPC (<i>marginal propensity to consume</i>) adalah porsi tambahan pendapatan yang dikonsumsi. Bila MPC = 0,8 maka k = 1/(1−0,8) = 5, sehingga tambahan belanja Rp10 T dapat menaikkan pendapatan nasional sekitar Rp50 T. Di dunia nyata efeknya lebih kecil karena ada pajak, impor, dan tabungan.</p>`;
+
+M.mekanisme=`
+<p class="lead">Kebijakan fiskal bekerja seperti dokter: mendiagnosis kondisi ekonomi dulu, baru memilih "obat" yang sesuai.</p>
+<div class="tabs" role="tablist" id="mtabs">
+  <button role="tab" aria-selected="true" data-t="resesi">Saat resesi</button>
+  <button role="tab" aria-selected="false" data-t="inflasi">Saat inflasi tinggi</button>
+</div>
+<div id="mflow"></div>
+<h2>Tahapan pengambilan kebijakan</h2>
+<ol class="tl">
+<li><b>Diagnosis.</b> Pemerintah membaca indikator: pertumbuhan, inflasi, pengangguran, dan daya beli.</li>
+<li><b>Pilihan kebijakan.</b> Menentukan arah (ekspansif atau kontraktif) dan instrumen yang dipakai.</li>
+<li><b>Penetapan.</b> Dituangkan dalam APBN atau perubahan APBN dan peraturan pelaksanaannya, dengan persetujuan DPR.</li>
+<li><b>Pelaksanaan dan pemantauan.</b> Dampaknya dievaluasi, lalu kebijakan disesuaikan.</li>
+</ol>
+<h2>Keterbatasan</h2>
+<ul>
+<li><b>Jeda waktu (<i>time lag</i>).</b> Mengenali masalah, memutuskan, dan menunggu dampak butuh waktu, sehingga kebijakan bisa terlambat.</li>
+<li><b>Beban utang.</b> Ekspansi yang dibiayai utang menambah kewajiban bunga di masa depan.</li>
+<li><b><i>Crowding out</i>.</b> Pemerintah yang meminjam dalam jumlah besar dapat menekan dana yang tersedia bagi swasta dan mendorong bunga naik.</li>
+</ul>
+<div class="callout teal"><b class="t">Kebijakan campuran (<i>policy mix</i>)</b><p>Kebijakan fiskal dijalankan pemerintah, sedangkan kebijakan moneter dijalankan Bank Indonesia. Keduanya paling efektif jika dikoordinasikan. Materi kebijakan moneter dapat kamu bandingkan dengan pembahasan tentang BI-Rate dan operasi pasar terbuka.</p></div>`;
+
+M.contoh=`
+<p class="lead">Beberapa contoh kebijakan fiskal yang pernah dan masih kamu temui.</p>
+<h2>1. Program Pemulihan Ekonomi Nasional (PEN), 2020</h2>
+<p>Saat pandemi COVID-19, ekonomi melemah tajam. Pemerintah memperbesar belanja kesehatan, perlindungan sosial, dan dukungan usaha, serta memberi insentif pajak. Defisit APBN 2020 melebar hingga sekitar 6% dari PDB. Batas 3% dilonggarkan sementara melalui Perppu No. 1 Tahun 2020 yang kemudian menjadi UU No. 2 Tahun 2020, dan diwajibkan kembali ke bawah 3% mulai 2023. <span class="pill teal">Ekspansif</span></p>
+<h2>2. Subsidi energi</h2>
+<p>Subsidi untuk BBM tertentu, LPG 3 kg, dan listrik menahan kenaikan harga sehingga daya beli dan inflasi lebih terjaga. Konsekuensinya, belanja subsidi membesar saat harga energi dunia naik. <span class="pill teal">Stabilisasi</span></p>
+<h2>3. Dana Desa, BOS, dan bantuan sosial</h2>
+<p>Dana Desa membiayai pembangunan di desa, Bantuan Operasional Sekolah (BOS) membantu operasional sekolah, dan bantuan seperti PKH dan KIP menopang keluarga kurang mampu. <span class="pill gold">Distribusi</span></p>
+<h2>4. Insentif pajak untuk UMKM</h2>
+<p>Pelaku UMKM tertentu dapat dikenai PPh final dengan tarif rendah (0,5% dari omzet) agar usaha kecil tumbuh dan lebih mudah patuh pajak. <span class="pill teal">Ekspansif</span></p>
+<h2>5. Kenaikan tarif PPN</h2>
+<p>Tarif PPN dinaikkan dari 10% menjadi 11% mulai April 2022 melalui UU Harmonisasi Peraturan Perpajakan untuk memperkuat penerimaan negara dan ketahanan APBN. <span class="pill red">Menambah penerimaan</span></p>
+<div class="callout gold"><b class="t">Diskusikan</b><p>Untuk setiap contoh: (a) apa masalah ekonomi yang dihadapi, (b) instrumen apa yang dipakai, (c) siapa yang paling merasakan manfaatnya, dan (d) apa risikonya bagi APBN?</p></div>
+<p style="color:var(--muted);font-size:.92rem">Angka dan kebijakan dapat berubah tiap tahun. Untuk data terbaru, lihat UU APBN tahun berjalan dan publikasi Kementerian Keuangan di halaman Sumber.</p>`;
+
+M.rangkuman=`
+<h2 style="margin-top:0">Poin penting</h2>
+<ul>
+<li>APBN adalah rencana keuangan tahunan yang ditetapkan dengan UU. Isinya pendapatan, belanja, dan pembiayaan.</li>
+<li>Fungsi APBN: otorisasi, perencanaan, pengawasan, alokasi, distribusi, dan stabilisasi.</li>
+<li>Saldo anggaran = pendapatan − belanja. Defisit ditutup pembiayaan, dan dibatasi 3% PDB.</li>
+<li>Kebijakan fiskal: <b>ekspansif</b> untuk resesi, <b>kontraktif</b> untuk inflasi, <b>netral</b> untuk kondisi stabil.</li>
+<li>Instrumen: pajak, belanja pemerintah, subsidi dan transfer, serta pembiayaan.</li>
+<li>Keterbatasan: jeda waktu, beban utang, dan <i>crowding out</i>.</li>
+</ul>
+<h2>Istilah penting</h2>
+<details><summary>PDB (Produk Domestik Bruto)</summary>Nilai seluruh barang dan jasa akhir yang dihasilkan dalam suatu negara selama satu periode.</details>
+<details><summary>PNBP</summary>Penerimaan negara di luar pajak, misalnya hasil sumber daya alam, laba BUMN, dan biaya layanan pemerintah.</details>
+<details><summary>Surat Berharga Negara (SBN)</summary>Surat utang yang diterbitkan pemerintah untuk membiayai defisit.</details>
+<details><summary>Transfer ke daerah</summary>Dana dari APBN ke pemerintah daerah dan desa, seperti DAU, DAK, DBH, dan dana desa.</details>
+<details><summary>Stabilisator otomatis</summary>Komponen anggaran yang menyesuaikan diri terhadap siklus ekonomi tanpa keputusan baru, contohnya pajak progresif.</details>
+<details><summary>Crowding out</summary>Tersingkirnya investasi swasta akibat pemerintah menyerap dana pinjaman dalam jumlah besar.</details>
+<div class="callout teal"><b class="t">Selanjutnya</b><p>Coba simulator di halaman Aktivitas, lalu kerjakan LKPD dan Kuis.</p></div>`;
+
+function materiPage(slug){
+  const i=KIDS.findIndex(k=>k[0]===slug);
+  if(i<0)return P.materi.h();
+  const prev=KIDS[i-1],next=KIDS[i+1];
+  return `<div class="crumb">📚 Materi · Subbab ${i+1} dari ${KIDS.length}</div><h1>${KIDS[i][1]}</h1>${M[slug]}
+  <div class="card row" style="justify-content:space-between"><span id="dn">${S.done['m-'+slug]?'Subbab ini sudah kamu tandai selesai.':'Sudah paham subbab ini?'}</span><button class="btn ${S.done['m-'+slug]?'ghost':''}" id="mk">${S.done['m-'+slug]?'Batalkan tanda selesai':'Tandai selesai'}</button></div>
+  <div class="pn">${prev?`<a class="btn ghost" href="#/materi/${prev[0]}">← ${prev[1]}</a>`:'<span></span>'}${next?`<a class="btn" href="#/materi/${next[0]}">${next[1]} →</a>`:'<a class="btn" href="#/video">Lanjut ke Video →</a>'}</div>`;
+}
+function initMateri(slug){
+  const b=$('#mk');if(b)b.onclick=()=>{mark('m-'+slug,!S.done['m-'+slug]);route();};
+  if(slug==='mekanisme'){
+    const F={
+      resesi:[['Kondisi','Pertumbuhan melambat, pengangguran naik, daya beli melemah'],['Pilihan kebijakan','Fiskal <b>ekspansif</b>'],['Instrumen','Belanja pemerintah ↑ · Pajak ↓ · Bansos ↑'],['Transmisi','Pendapatan masyarakat naik → konsumsi naik → produksi naik → tenaga kerja diserap'],['Dampak','Ekonomi pulih, defisit anggaran melebar sementara']],
+      inflasi:[['Kondisi','Permintaan berlebih, harga naik cepat, ekonomi terlalu panas'],['Pilihan kebijakan','Fiskal <b>kontraktif</b>'],['Instrumen','Belanja pemerintah ↓ · Pajak ↑ · Proyek ditunda'],['Transmisi','Pendapatan yang bisa dibelanjakan turun → konsumsi turun → tekanan harga mereda'],['Dampak','Inflasi terkendali, defisit mengecil, risiko pertumbuhan melambat']]};
+    const show=k=>{$('#mflow').innerHTML='<div class="flow">'+F[k].map(r=>`<div><small style="color:var(--muted)">${r[0]}</small><br>${r[1]}</div>`).join('')+'</div>';
+      $$('#mtabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===k));}; $$
+('#mtabs button').forEach(b=>b.onclick=()=>show(b.dataset.t));show('resesi');
+  }
+}
+
+P.video={t:'Video',h:()=>{
+  const q=s=>'https://www.youtube.com/results?search_query='+encodeURIComponent(s);
+  const V=[['Apa itu APBN?','Pengertian, fungsi, dan struktur APBN','apbn penjelasan struktur pendapatan belanja pembiayaan'],
+    ['Kebijakan fiskal ekspansif dan kontraktif','Contoh dan mekanismenya','kebijakan fiskal ekspansif kontraktif ekonomi kelas 11'],
+    ['Pajak dan APBN untuk pelajar','Dari mana uang negara berasal','pajak penerimaan negara APBN untuk pelajar'],
+    ['Efek pengganda (multiplier)','Cara kerja pengganda belanja pemerintah','multiplier effect kebijakan fiskal penjelasan']];
+  return `<div class="crumb">🎥 Video</div><h1>Video Pembelajaran</h1>
+  <p class="lead">Tonton video untuk memperkuat pemahaman. Tombol di bawah membuka hasil pencarian YouTube sesuai topik.</p>
+  <div class="grid">${V.map(v=>`<div class="card"><h3 style="margin-top:0">${v[0]}</h3><p>${v[1]}</p><a class="btn ghost" href="${q(v[2])}" target="_blank" rel="noopener">Cari video</a></div>`).join('')}</div>
+  <div class="callout"><b class="t">Pertanyaan pemantik setelah menonton</b><ul><li>Apa perbedaan APBN dan kebijakan fiskal menurut video?</li><li>Instrumen apa yang paling sering disebut?</li><li>Adakah contoh yang terjadi di daerahmu?</li></ul></div>
+  <div class="callout gold"><b class="t">Catatan untuk guru</b><p>Pilih video yang sesuai dengan tahun anggaran terbaru, lalu tempatkan tautannya di halaman ini agar siswa langsung membukanya.</p></div>`;}};
+
+/* Aktivitas */
+P.aktivitas={t:'Aktivitas',h:()=>`
+<div class="crumb">🔎 Aktivitas</div><h1>Aktivitas</h1>
+<p class="lead">Tiga aktivitas: simulator, klasifikasi pos APBN, dan tebak jenis kebijakan.</p>
+<h2>A. Simulator kebijakan fiskal</h2>
+<div class="card">
+<p style="margin-top:0">Ekonomi ilustrasi: PDB Rp1.000 T, pendapatan Rp200 T, belanja Rp220 T (defisit 2%). Atur perubahan belanja dan pajak, lalu lihat dampaknya. Model sederhana dengan MPC 0,6, tanpa umpan balik pajak.</p>
+<label class="field"><span>Kondisi ekonomi</span><select id="sk"><option value="resesi">Resesi (pengangguran tinggi)</option><option value="inflasi">Inflasi tinggi (ekonomi terlalu panas)</option><option value="stabil">Stabil</option></select></label>
+<label class="field"><span>Perubahan belanja pemerintah: <b id="lg">0</b> T</span><input type="range" id="sg" min="-20" max="20" step="2" value="0"></label>
+<label class="field"><span>Perubahan penerimaan pajak: <b id="lt">0</b> T</span><input type="range" id="st" min="-20" max="20" step="2" value="0"></label>
+<div class="stat" aria-live="polite"><div><small>Perubahan PDB</small><b id="oy"></b></div><div><small>Saldo anggaran</small><b id="os"></b></div><div><small>Defisit / PDB</small><b id="od"></b></div><div><small>Jenis kebijakan</small><b id="oj"></b></div></div>
+<div id="ofb" class="callout"></div>
+</div>
+<h2>B. Klasifikasi pos APBN</h2>
+<div class="card" id="c1"></div>
+<h2>C. Tebak jenis kebijakan</h2>
+<div class="card" id="c2"></div>
+<div class="card row" style="justify-content:space-between"><span id="adn">${S.done.aktivitas?'Aktivitas sudah ditandai selesai.':'Sudah mencoba semua aktivitas?'}</span><button class="btn ${S.done.aktivitas?'ghost':''}" id="amk">${S.done.aktivitas?'Batalkan tanda selesai':'Tandai selesai'}</button></div>`,
+ i:()=>{
+  const g=$('#sg'),t=$('#st'),k=$('#sk');
+  const up=()=>{
+    const dG=+g.value,dT=+t.value;$('#lg').textContent=(dG>0?'+':'')+dG;$('#lt').textContent=(dT>0?'+':'')+dT;
+    const dY=2.5*dG-1.5*dT,pdb=1000+dY,rev=200+dT,sp=220+dG,sal=rev-sp,dp=-sal/pdb*100;
+    $('#oy').textContent=(dY>0?'+':'')+fmt(dY)+' T';$('#os').textContent=(sal>0?'Surplus ':sal<0?'Defisit ':'')+fmt(Math.abs(sal))+' T';
+    $('#od').textContent=dp>0?fmt(dp)+'%':'0%';
+    const j=dY>2?'Ekspansif':dY<-2?'Kontraktif':'Netral';$('#oj').textContent=j;
+    const c=k.value;let ok,msg;
+    if(c==='resesi'){ok=dY>2;msg=ok?'Cocok: kebijakan ekspansif mendorong permintaan saat resesi.':'Belum cocok: saat resesi, ekonomi perlu didorong. Tambah belanja atau turunkan pajak.';}
+    else if(c==='inflasi'){ok=dY<-2;msg=ok?'Cocok: kebijakan kontraktif meredam permintaan berlebih.':'Belum cocok: saat inflasi tinggi, permintaan perlu didinginkan. Kurangi belanja atau naikkan pajak.';}
+    else{ok=Math.abs(dY)<=2;msg=ok?'Cocok: saat ekonomi stabil, kebijakan netral menjaga keseimbangan.':'Kebijakan terlalu kuat untuk ekonomi yang sedang stabil.';}
+    if(dp>3)msg+=' Perhatian: defisit melewati batas 3% PDB.';
+    $('#ofb').className='callout '+(ok&&dp<=3?'teal':ok?'gold':'red');$('#ofb').innerHTML='<b class="t">'+(ok&&dp<=3?'Tepat':'Evaluasi')+'</b><p>'+msg+'</p>';
+  };
+  [g,t,k].forEach(e=>e.oninput=up);up();
+  classifier('#c1',['Pendapatan','Belanja','Pembiayaan'],[
+   ['PPN',0,'Pajak, bagian penerimaan perpajakan.'],['Gaji ASN',1,'Belanja pegawai, bagian belanja pemerintah pusat.'],['Penerbitan Surat Berharga Negara',2,'Utang untuk menutup defisit adalah pembiayaan.'],
+   ['Laba BUMN',0,'Termasuk PNBP, bagian pendapatan negara.'],['Dana Desa',1,'Transfer ke daerah dan desa, bagian belanja negara.'],['Cukai rokok',0,'Penerimaan perpajakan.'],
+   ['Bunga utang',1,'Belanja pemerintah pusat untuk membayar bunga.'],['Pinjaman luar negeri',2,'Sumber pembiayaan utang.'],['Subsidi energi',1,'Belanja pemerintah pusat.'],['Bea masuk',0,'Penerimaan perpajakan dari perdagangan internasional.']]);
+  classifier('#c2',['Ekspansif','Kontraktif','Netral'],[
+   ['Ekonomi menyusut. Pemerintah menurunkan tarif PPh badan dan menambah belanja infrastruktur.',0,'Pajak turun dan belanja naik untuk mendorong ekonomi.'],
+   ['Inflasi melonjak. Pemerintah menunda proyek dan menaikkan cukai.',1,'Belanja turun dan pajak naik untuk meredam permintaan.'],
+   ['Ekonomi stabil. Pemerintah menjaga pendapatan dan belanja tetap seimbang.',2,'Tidak ada dorongan atau pendinginan.'],
+   ['Saat pandemi, pemerintah memperluas bansos dan insentif pajak UMKM.',0,'Menambah daya beli dan meringankan usaha.'],
+   ['Ekonomi terlalu panas. Pemerintah memangkas belanja barang dan menghemat anggaran.',1,'Mengurangi permintaan agregat.']]);
+  $('#amk').onclick=()=>{mark('aktivitas',!S.done.aktivitas);route();};
+ }};
+function classifier(sel,cats,items){
+  const box=$(sel);let right=0,done=0;
+  const head=()=>`<p style="margin-top:0"><b>Skor: <span class="sc">${right}</span>/${items.length}</b></p>`;
+  box.innerHTML=head()+items.map((it,i)=>`<div class="cls" data-i="${i}"><div>${it[0]}</div><div class="chips">${cats.map((c,k)=>`<button class="chip" data-k="${k}">${c}</button>`).join('')}</div><p class="why" hidden></p></div>`).join('');
+  $$('.cls',box).forEach(row=>{const i=+row.dataset.i;$$
+('.chip',row).forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k,ok=k===items[i][1];
+    $$('.chip',row).forEach(x=>x.disabled=true);b.classList.add(ok?'ok':'no'); if(!ok)$$
+('.chip',row)[items[i][1]].classList.add('ok');
+    const w=$('.why',row);w.hidden=false;w.textContent=(ok?'Benar. ':'Belum tepat. ')+items[i][2];
+    if(ok)right++;done++;$('.sc',box).textContent=right;
+    if(done===items.length){const r=document.createElement('button');r.className='btn ghost';r.textContent='Ulangi';r.style.marginTop='12px';r.onclick=()=>classifier(sel,cats,items);box.appendChild(r);}
+  });});
+}
+
+/* LKPD */
+P.lkpd={t:'LKPD',h:()=>`
+<div class="crumb">📑 LKPD</div><h1>Lembar Kerja Peserta Didik</h1>
+<p class="lead">Kerjakan dengan kata-katamu sendiri. Jawaban tersimpan di perangkat ini dan bisa disalin untuk dikumpulkan ke guru.</p>
+<div class="card">
+<div class="grid" style="gap:0 14px"><label class="field"><span>Nama</span><input type="text" data-k="nama"></label><label class="field"><span>Kelas</span><input type="text" data-k="kelas"></label></div>
+<h3>1. Konsep</h3>
+<label class="field"><span>Jelaskan perbedaan APBN dan kebijakan fiskal, disertai satu contoh.</span><textarea data-k="q1"></textarea></label>
+<h3>2. Menghitung</h3>
+<p>Pendapatan negara Rp2.000 T, belanja negara Rp2.300 T, dan PDB Rp12.000 T (angka ilustrasi).</p>
+<div class="grid" style="gap:0 14px"><label class="field"><span>Besar defisit (triliun rupiah)</span><input type="text" inputmode="decimal" data-k="c1" id="c1i"></label><label class="field"><span>Defisit terhadap PDB (%)</span><input type="text" inputmode="decimal" data-k="c2" id="c2i"></label></div>
+<div class="row"><button class="btn ghost" id="chk">Periksa hitungan</button><span id="chkr" aria-live="polite"></span></div>
+<label class="field" style="margin-top:14px"><span>Apakah defisit ini masih dalam batas aman? Jelaskan.</span><textarea data-k="q2"></textarea></label>
+<h3>3. Mencocokkan kondisi dan kebijakan</h3>
+<label class="field"><span>Resesi: jenis kebijakan fiskal, apa yang dilakukan pada pajak dan belanja, serta alasannya.</span><textarea data-k="q3a"></textarea></label>
+<label class="field"><span>Inflasi tinggi: jenis kebijakan fiskal, apa yang dilakukan pada pajak dan belanja, serta alasannya.</span><textarea data-k="q3b"></textarea></label>
+<h3>4. Analisis kasus</h3>
+<p>Pemerintah menanggung sebagian PPN atas pembelian rumah tertentu untuk waktu terbatas. Instrumen apa yang dipakai? Siapa yang diuntungkan? Apa risikonya bagi APBN?</p>
+<label class="field"><span>Jawabanmu</span><textarea data-k="q4"></textarea></label>
+<h3>5. Usulan</h3>
+<label class="field"><span>Pilih satu masalah di lingkunganmu (misalnya jalan rusak atau pengangguran muda). Kebijakan fiskal apa yang kamu usulkan dan bagaimana membiayainya?</span><textarea data-k="q5"></textarea></label>
+<div class="row"><button class="btn" id="sv">Simpan jawaban</button><button class="btn ghost" id="cp">Salin semua jawaban</button><span class="toast" id="lt2"></span></div>
+<textarea id="fb2" readonly hidden style="margin-top:12px"></textarea>
+</div>`,
+ i:()=>{
+  const f=$$('[data-k]');f.forEach(e=>{if(S.lkpd[e.dataset.k])e.value=S.lkpd[e.dataset.k];e.oninput=()=>{S.lkpd[e.dataset.k]=e.value;save();};});
+  const msg=t=>{$('#lt2').textContent=t;setTimeout(()=>$('#lt2').textContent='',2500);};
+  $('#chk').onclick=()=>{
+    const n=s=>parseFloat(String(s).replace(',','.'));
+    const a=n($('#c1i').value),b=n($('#c2i').value);
+    const r=$('#chkr');
+    if(isNaN(a)||isNaN(b)){r.innerHTML='<span class="pill gold">Isi kedua kolom dulu.</span>';return;}
+    r.innerHTML=(a===300?'<span class="pill teal">Defisit benar.</span> ':'<span class="pill red">Defisit belum tepat: belanja − pendapatan.</span> ')+(Math.abs(b-2.5)<0.01?'<span class="pill teal">Persentase benar.</span>':'<span class="pill red">Persentase: defisit ÷ PDB × 100.</span>');
+  };
+  $('#sv').onclick=()=>{save();mark('lkpd');msg('Tersimpan.');};
+  $('#cp').onclick=async()=>{
+    const g=k=>S.lkpd[k]||'-';
+    const txt=`LKPD APBN dan Kebijakan Fiskal\nNama: ${g('nama')}\nKelas: ${g('kelas')}\n\n1. Konsep:\n${g('q1')}\n\n2. Hitungan: defisit ${g('c1')} T; ${g('c2')}% PDB\nPenjelasan batas aman:\n${g('q2')}\n\n3a. Resesi:\n${g('q3a')}\n3b. Inflasi:\n${g('q3b')}\n\n4. Analisis kasus:\n${g('q4')}\n\n5. Usulan:\n${g('q5')}`;
+    try{await navigator.clipboard.writeText(txt);msg('Disalin.');}
+    catch(e){const t=$('#fb2');t.hidden=false;t.value=txt;t.select();msg('Salin manual dari kotak di bawah.');}
+    mark('lkpd');
+  };
+ }};
+
+/* Kuis */
+const QUIZ=[
+ {q:'APBN ditetapkan setiap tahun dengan…',o:['Peraturan Presiden','Undang-Undang','Keputusan Menteri Keuangan','Peraturan Daerah'],a:1,e:'Sesuai Pasal 23 ayat (1) UUD 1945, APBN ditetapkan dengan undang-undang setelah dibahas bersama DPR.'},
+ {q:'Pemberian bansos kepada keluarga kurang mampu terutama menjalankan fungsi APBN sebagai alat…',o:['Otorisasi','Pengawasan','Distribusi','Perencanaan'],a:2,e:'Fungsi distribusi bertujuan mengurangi kesenjangan pendapatan.'},
+ {q:'Laba BUMN yang disetor kepada negara termasuk…',o:['Penerimaan perpajakan','PNBP','Hibah','Pembiayaan'],a:1,e:'Laba BUMN adalah Penerimaan Negara Bukan Pajak (PNBP).'},
+ {q:'Pendapatan negara Rp2.400 T dan belanja Rp2.700 T. Kondisi anggarannya adalah…',o:['Surplus Rp300 T','Defisit Rp300 T','Berimbang','Defisit Rp5.100 T'],a:1,e:'Belanja − pendapatan = 2.700 − 2.400 = 300, sehingga defisit Rp300 T.'},
+ {q:'PDB Rp10.000 T dan defisit Rp350 T. Rasio defisit terhadap PDB adalah…',o:['3,5%, melebihi batas 3%','3,5%, masih aman','0,35%, masih aman','35%, melebihi batas'],a:0,e:'350 ÷ 10.000 × 100% = 3,5%, di atas batas 3% PDB.'},
+ {q:'Saat resesi dan pengangguran tinggi, kebijakan fiskal yang tepat adalah…',o:['Kontraktif','Ekspansif','Netral saja','Menaikkan seluruh tarif pajak'],a:1,e:'Ekspansif: belanja ditambah dan/atau pajak diturunkan untuk mendorong permintaan.'},
+ {q:'Untuk meredam inflasi akibat permintaan berlebih, pemerintah dapat…',o:['Menurunkan pajak dan menambah belanja','Menaikkan pajak dan menunda belanja','Menambah subsidi tanpa batas','Memperbesar defisit'],a:1,e:'Kebijakan kontraktif menurunkan permintaan agregat lewat pajak naik dan belanja turun.'},
+ {q:'Contoh stabilisator otomatis (automatic stabilizer) adalah…',o:['Perubahan tarif PPN lewat undang-undang','Pajak penghasilan progresif','Proyek padat karya baru','Penerbitan obligasi baru'],a:1,e:'Pajak progresif menyesuaikan pajak yang dibayar dengan penghasilan tanpa keputusan baru.'},
+ {q:'Berikut ini yang BUKAN instrumen kebijakan fiskal adalah…',o:['Subsidi','Pajak penghasilan','Penetapan BI-Rate','Belanja modal'],a:2,e:'BI-Rate adalah instrumen kebijakan moneter yang dijalankan Bank Indonesia.'},
+ {q:'Jika MPC = 0,8, pengganda pengeluaran (k) dalam model sederhana adalah…',o:['0,8','1,25','4','5'],a:3,e:'k = 1/(1 − 0,8) = 1/0,2 = 5.'}
+];
+P.kuis={t:'Kuis',h:()=>`<div class="crumb">🎮 Kuis</div><h1>Kuis</h1><p class="lead">10 soal pilihan ganda. Kamu langsung melihat pembahasan setiap jawaban.${S.best!==null?` Skor terbaikmu: <b>${S.best}/10</b>.`:''}</p><div class="card" id="quiz"></div>`,
+ i:()=>{
+  const box=$('#quiz');let i=0,sc=0,log=[];
+  const ask=()=>{
+    const Q=QUIZ[i];
+    box.innerHTML=`<div class="qhead"><span>Soal ${i+1} dari ${QUIZ.length}</span><div class="bar"><i style="width:${i/QUIZ.length*100}%"></i></div></div><h3>${Q.q}</h3><div class="opts">${Q.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div><div id="fb" aria-live="polite"></div>`;
+    $$('.opt',box).forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k,ok=k===Q.a;$$('.opt',box).forEach(x=>x.disabled=true); b.classList.add(ok?'ok':'no');if(!ok)$$('.opt',box)[Q.a].classList.add('ok');
+      if(ok)sc++;log.push(ok);
+      $('#fb').innerHTML=`<div class="callout ${ok?'teal':'red'}"><b class="t">${ok?'Benar':'Belum tepat'}</b><p>${Q.e}</p></div><button class="btn" id="nx">${i===QUIZ.length-1?'Lihat hasil':'Soal berikutnya'}</button>`;
+      $('#nx').onclick=()=>{i++;i<QUIZ.length?ask():end();};$('#nx').focus();
+    });
+  };
+  const end=()=>{
+    if(S.best===null||sc>S.best)S.best=sc;save();mark('kuis');
+    const m=sc>=9?'Luar biasa, kamu menguasai materi ini.':sc>=7?'Bagus. Ulangi bagian yang masih keliru.':sc>=5?'Cukup. Baca ulang materi lalu coba lagi.':'Yuk, pelajari materi sekali lagi lalu ulangi kuis.';
+    box.innerHTML=`<h2 style="margin-top:0">Skor: ${sc} dari ${QUIZ.length}</h2><p>${m} Skor terbaik: <b>${S.best}/10</b>.</p>
+    <div class="tw"><table><tr><th>Soal</th><th>Hasil</th></tr>${log.map((r,k)=>`<tr><td>${k+1}. ${QUIZ[k].q}</td><td>${r?'<span class="pill teal">Benar</span>':'<span class="pill red">Salah</span>'}</td></tr>`).join('')}</table></div>
+    <div class="row"><button class="btn" id="again">Ulangi kuis</button><a class="btn ghost" href="#/refleksi">Lanjut ke Refleksi</a></div>`;
+    $('#again').onclick=()=>{i=0;sc=0;log=[];ask();};
+  };
+  ask();
+ }};
+
+/* Refleksi */
+const REF=['Menjelaskan pengertian dan fungsi APBN','Menghitung surplus atau defisit','Membedakan kebijakan ekspansif, kontraktif, dan netral','Menjelaskan instrumen kebijakan fiskal','Menganalisis kebijakan fiskal pada kasus nyata'];
+P.refleksi={t:'Refleksi',h:()=>`
+<div class="crumb">💭 Refleksi</div><h1>Refleksi</h1><p class="lead">Jawab jujur, tidak ada nilai benar atau salah.</p>
+<div class="card"><h3 style="margin-top:0">Seberapa yakin kamu sekarang?</h3>
+<div class="tw"><table><tr><th>Kemampuan</th><th>1 Belum</th><th>2</th><th>3</th><th>4 Sangat yakin</th></tr>
+${REF.map((r,i)=>`<tr><td>${r}</td>${[1,2,3,4].map(v=>`<td><input type="radio" name="r${i}" value="${v}" aria-label="${r}: ${v}" ${S.ref['r'+i]==v?'checked':''}></td>`).join('')}</tr>`).join('')}</table></div>
+<label class="field"><span>Hal paling baru yang kamu pelajari</span><textarea data-r="t1">${S.ref.t1||''}</textarea></label>
+<label class="field"><span>Bagian yang masih sulit</span><textarea data-r="t2">${S.ref.t2||''}</textarea></label>
+<label class="field"><span>Apa kaitan APBN dengan kehidupanmu sehari-hari?</span><textarea data-r="t3">${S.ref.t3||''}</textarea></label>
+<div class="row"><button class="btn" id="rs">Simpan refleksi</button><span class="toast" id="rt"></span></div></div>`,
+ i:()=>{
+  $$('input[type=radio]').forEach(r=>r.onchange=()=>{S.ref[r.name]=r.value;save();});$$('[data-r]').forEach(t=>t.oninput=()=>{S.ref[t.dataset.r]=t.value;save();});$('#rs').onclick=()=>{save();mark('refleksi');$('#rt').textContent='Tersimpan.';setTimeout(()=>$('#rt').textContent='',2500);};
+ }};
+
+/* Sumber */
+P.sumber={t:'Sumber',h:()=>`
+<div class="crumb">🔗 Sumber</div><h1>Sumber Belajar</h1>
+<h2>Peraturan</h2>
+<ul><li>Undang-Undang Dasar Negara Republik Indonesia Tahun 1945, Pasal 23.</li><li>UU No. 17 Tahun 2003 tentang Keuangan Negara.</li><li>UU APBN tahun anggaran berjalan.</li><li>UU No. 2 Tahun 2020 (penetapan Perppu No. 1 Tahun 2020 tentang kebijakan keuangan negara selama pandemi COVID-19).</li><li>UU No. 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan.</li></ul>
+<h2>Situs resmi</h2>
+<div class="grid">
+${[['Kementerian Keuangan','https://www.kemenkeu.go.id','Publikasi APBN dan siaran pers'],['Ditjen Anggaran / Perbendaharaan','https://www.djpb.kemenkeu.go.id','Data realisasi APBN'],['Ditjen Pajak','https://pajak.go.id','Informasi perpajakan'],['Badan Kebijakan Fiskal','https://fiskal.kemenkeu.go.id','Kajian kebijakan fiskal'],['Bank Indonesia','https://www.bi.go.id','Kebijakan moneter sebagai pembanding'],['BPK','https://www.bpk.go.id','Pemeriksaan keuangan negara']].map(s=>`<div class="card"><h3 style="margin-top:0">${s[0]}</h3><p>${s[2]}</p><a href="${s[1]}" target="_blank" rel="noopener">${s[1].replace('https://','')}</a></div>`).join('')}</div>
+<h2>Buku</h2><ul><li>Buku teks Ekonomi Kelas XI (Kemendikbudristek), bab kebijakan fiskal dan APBN.</li></ul>
+<div class="callout gold"><b class="t">Pastikan datanya terbaru</b><p>Angka APBN berubah setiap tahun. Untuk data terkini, gunakan UU APBN dan publikasi resmi Kementerian Keuangan.</p></div>`};
+
+/* ---------- Router ---------- */
+function route(){
+  const r=(location.hash.slice(2)||'beranda').split('/');
+  let html,init,title;
+  if(r[0]==='materi'&&r[1]){html=materiPage(r[1]);init=()=>initMateri(r[1]);title='Materi';}
+  else{const p=P[r[0]]||P.beranda;html=p.h();init=p.i;title=p.t;}
+  $('#view').innerHTML=html;document.title=title+' · LMS Ekonomi APBN';
+  drawNav(r);if(init)init();
+  document.body.classList.remove('open');window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+$('#menuBtn').onclick=()=>document.body.classList.toggle('open');
+$('#main').addEventListener('click',()=>document.body.classList.remove('open'));
+$('#themeBtn').onclick=()=>{
+  const d=document.documentElement,cur=d.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  d.dataset.theme=cur==='dark'?'light':'dark';
+};
+route();
+</script>
+</body>
+</html>
